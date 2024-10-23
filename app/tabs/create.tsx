@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Image, RefreshControl, ScrollView, Alert, StyleSheet } from 'react-native'
+import { View, Text, Image, ScrollView, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { icons } from '@/constants'
@@ -7,9 +7,10 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { ResizeMode, Video } from 'expo-av'
 import CustomButton from '@/components/CustomButton'
 import * as DocumentPicker from 'expo-document-picker'
-import * as ImagePicker from 'expo-image-picker'
-import { createVideoPost, createVideoPost2 } from '@/lib/appwrite'
-import GlobalProvider, { useGlobalContext } from '@/context/GlobalProvider'
+// import * as ImagePicker from 'expo-image-picker'
+import { createVideoPost } from '@/lib/appwrite'
+import { useGlobalContext } from '@/context/GlobalProvider'
+import { router } from 'expo-router'
 
 const Create = () => {
 
@@ -35,14 +36,11 @@ const Create = () => {
       await createVideoPost({
         ...form, userId: user.$id
       })
-
-      // await createVideoPost2({
-      //   ...form, userId: user.$id
-      // })
       Alert.alert('Success','Post uploaded')
+      router.push('/')
     } catch (error) {
       Alert.alert('Error','Post upload fail')
-      console.log('error: ', error)
+      // console.log('error: ', error)
       // throw new Error;
     }finally{
       setForm({
